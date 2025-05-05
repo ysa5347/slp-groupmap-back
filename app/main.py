@@ -1,12 +1,31 @@
-from typing import Union
+import uvicorn
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI()
+from . import models, routers
+from .database import engine
 
-@app.get("/")
-async def read_hello():
-    return {"message": "Hello, World!"}
+# 데이터베이스 테이블 생성
+models.Base.metadata.create_all(bind=engine)
 
-@app.get("/items/{item_id}")
-async def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
+# FastAPI 애플리케이션 생성
+app = FastAPI(
+    title="group- API",
+    description="밥술카 가게 정보를 검색하고 조회하는 API",
+    version="0.1.0"
+)
+
+# CORS 설정
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# 라우터 등록
+app.include_router(routers.router)
+
+if __name__ == "__main__":
+    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)
