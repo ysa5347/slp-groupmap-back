@@ -5,8 +5,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from . import models, routers
 from .database import engine
 
-# 데이터베이스 테이블 생성
-models.Base.metadata.create_all(bind=engine)
+# 데이터베이스 테이블 생성 (존재하는 DB 유지)
+#models.Base.metadata.create_all(bind=engine)
 
 # FastAPI 애플리케이션 생성
 app = FastAPI(
@@ -26,6 +26,5 @@ app.add_middleware(
 
 # 라우터 등록
 app.include_router(routers.router)
-
 if __name__ == "__main__":
     uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)

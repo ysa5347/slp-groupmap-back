@@ -1,6 +1,7 @@
 from typing import Optional, List
 from pydantic import BaseModel
 from datetime import datetime
+from enum import Enum
 
 """
     example for schema layer
@@ -38,3 +39,16 @@ class Shop(ShopBase):
     pass
 
 class ShopFilter(BaseModel):
+    pass
+
+class SortOrder(str, Enum):
+    asc = "asc"
+    desc = "desc"
+
+class ShopSort(BaseModel):
+    sort_by: str = "name"  # 기본 정렬 필드
+    order: SortOrder = SortOrder.asc  # asc 또는 desc
+
+class ShopList(BaseModel):
+    total: int
+    shops: List[Shop]
