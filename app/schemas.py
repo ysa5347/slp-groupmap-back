@@ -14,15 +14,15 @@ class ShopBase(BaseModel):
     walk_time: int
     pubtrans_time: int
     vehicle_time: int
-    is_parking: bool
+    is_parking: int
     opening_hours: dict
     max_cap: int
     table_cap: int
-    table_map_S3: str
-    shop_map_S3: str
+    table_map_s3: str
+    shop_map_s3: str
     naver_link: str
     kakao_link: str
-    type: str
+    type: int
     is_active: bool
     is_deleted: bool
     created_at: datetime

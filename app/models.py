@@ -23,8 +23,7 @@ class Shop(Base):
 
     pk = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String, index=True, nullable=False)
-    walk_dist = Column(Integer)
-    vehicle_dist = Column(Integer)
+    dist = Column(Integer)
     walk_time = Column(Integer)
     pubtrans_time = Column(Integer)
     vehicle_time = Column(Integer)
