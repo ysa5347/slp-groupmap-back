@@ -9,13 +9,16 @@ from enum import Enum
 class ShopBase(BaseModel):
     pk: int
     name: str
-    walk_dist: int
+    dist: int
     vehicle_dist: int
     walk_time: int
     pubtrans_time: int
     vehicle_time: int
     is_parking: int
     opening_hours: dict
+    break_time: str
+    last_order: str
+    significant: str
     max_cap: int
     table_cap: int
     table_map_s3: str
