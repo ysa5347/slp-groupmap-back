@@ -1,13 +1,13 @@
-from sqlalchemy import Column, Integer, String, Float, Text, DateTime, Boolean
+from sqlalchemy import Column, Integer, String, Text, DateTime, Boolean
 from sqlalchemy.types import Enum as SQLEnum
 from sqlalchemy.sql import func
 from sqlalchemy.dialects.mysql import JSON
-from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 from sqlalchemy import ForeignKey
 from sqlalchemy import Table
+from sqlalchemy.ext.declarative import declarative_base
 
-from .models.base import Base
+Base = declarative_base()
 
 shop_type_enum = SQLEnum('cafe', 'meal', 'drink', name='shop_type_enum', create_type=False)
 
@@ -22,19 +22,19 @@ class Shop(Base):
     __tablename__ = "shop_details"
 
     pk = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String, index=True, nullable=False)
+    name = Column(String(127), index=True, nullable=False)
     dist = Column(Integer)
     walk_time = Column(Integer)
     pubtrans_time = Column(Integer)
     vehicle_time = Column(Integer)
     is_parking = Column(Boolean)
-    opening_hours = Column(JSONB)
+    opening_hours = Column(JSON)
     max_cap = Column(Integer)
     table_cap = Column(Integer)
-    table_map_s3 = Column(String)
-    shop_map_s3 = Column(String)
-    naver_link = Column(String)
-    kakao_link = Column(String)
+    table_map_s3 = Column(String(255))
+    shop_map_s3 = Column(String(255))
+    naver_link = Column(String(255))
+    kakao_link = Column(String(255))
     shop_type = Column(shop_type_enum, nullable=False)
     is_active = Column(Boolean, default=False)
     is_deleted = Column(Boolean, default=True)

@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from . import routers
-from .models.base import Base
+from .models import Base
 from .database import engine
 
 # 데이터베이스 테이블 생성
