@@ -7,7 +7,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy import ForeignKey
 from sqlalchemy import Table
 
-from .database import Base
+from .models.base import Base
 
 shop_type_enum = SQLEnum('cafe', 'meal', 'drink', name='shop_type_enum', create_type=False)
 
