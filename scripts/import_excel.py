@@ -1,7 +1,6 @@
 import os
 import pandas as pd
 from dotenv import load_dotenv
-from collections import OrderedDict
 from app.database import SessionLocal
 from app.models.shop import Shop
 from app.models.tag import Tag
@@ -25,6 +24,10 @@ def insert_data():
     db = SessionLocal()
 
     try:
+        db.query(Shop).delete()
+        db.query(Tag).delete()
+        db.commit()
+        
         df = pd.read_excel(EXCEL_PATH, header=1)
 
         for _, row in df.iterrows():
