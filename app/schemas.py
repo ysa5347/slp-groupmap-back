@@ -1,4 +1,4 @@
-from typing import Optional, List
+from typing import Optional, List, Dict, Any
 from pydantic import BaseModel
 from datetime import datetime
 from enum import Enum
@@ -15,9 +15,7 @@ class ShopBase(BaseModel):
     pubtrans_time: int
     vehicle_time: int
     is_parking: int
-    opening_hours: dict
-    break_time: str
-    last_order: str
+    opening_info: Dict[str, Any]
     significant: str
     max_cap: int
     table_cap: int

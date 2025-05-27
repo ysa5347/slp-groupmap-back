@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+import datetime
 from dotenv import load_dotenv
 from app.database import SessionLocal
 from app.models.shop import Shop
@@ -15,6 +16,13 @@ def parse_opening_hours(row):
         for day in DAYS
     }
 
+def time_to_str(val):
+    if pd.isna(val):
+        return None
+    if isinstance(val, (datetime.time, datetime.datetime, pd.Timestamp)):
+        return val.strftime("%H:%M")
+    return str(val)
+
 def parse_tags(tag_string):
     if pd.isna(tag_string):
         return []
@@ -24,10 +32,6 @@ def insert_data():
     db = SessionLocal()
 
     try:
-        db.query(Shop).delete()
-        db.query(Tag).delete()
-        db.commit()
-        
         df = pd.read_excel(EXCEL_PATH, header=1)
 
         for _, row in df.iterrows():
@@ -39,7 +43,14 @@ def insert_data():
 
             opening_hours = parse_opening_hours(row)
             break_time = row[13] if not pd.isna(row[13]) else None
-            last_order = row[14] if not pd.isna(row[14]) else None
+            last_order = time_to_str(row[14])
+
+            opening_info = {
+                "opening_hours": opening_hours,
+                "break_time": break_time,
+                "last_order": last_order
+            }
+
             significant = row[15] if not pd.isna(row[15]) else None
 
             max_cap = int(row[16]) if not pd.isna(row[16]) else None
@@ -58,9 +69,7 @@ def insert_data():
                 walk_time=walk_time,
                 vehicle_time=vehicle_time,
                 is_parking=is_parking,
-                opening_hours=opening_hours,
-                break_time=break_time,
-                last_order=last_order,
+                opening_info=opening_info,
                 significant=significant,
                 max_cap=max_cap,
                 table_cap=table_cap,
