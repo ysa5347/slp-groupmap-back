@@ -78,7 +78,7 @@ def insert_data():
                 shop_type=shop_type,
                 table_map_s3=None,
                 shop_map_s3=None,
-                is_active=False,
+                is_active=True,
                 is_deleted=True,
                 created_at=None,
                 updated_at=None

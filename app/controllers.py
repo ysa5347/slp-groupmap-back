@@ -12,39 +12,48 @@ from .database import get_db
     - 요청 유효성 검사 및 예외 처리를 수행합니다.
 """
 
+
 class ShopController:
     @staticmethod
     def get_shops(
-        db: Session = Depends(get_db),
-        skip: int = 0,
-        limit: int = 100,
-        category: Optional[str] = None,
-        min_rating: Optional[float] = None,
-        is_active: Optional[bool] = True,
-        sort_by: Optional[str] = "name",
-        order: Optional[str] = "asc"
+            db: Session,
+            skip: int = 0,
+            limit: int = 100,
+            shop_type: Optional[int] = None,
+            min_capacity: Optional[int] = None,
+            max_capacity: Optional[int] = None,
+            tags: Optional[List[str]] = None,
+            min_rating: Optional[float] = None,
+            is_active: Optional[bool] = True,
+            has_parking: Optional[bool] = None,
+            sort_by: Optional[str] = "name",
+            order: Optional[str] = "asc"
     ):
         # 필터와 정렬 객체 생성
         filters = schemas.ShopFilter(
-            category=category,
+            shop_type=shop_type,
+            min_capacity=min_capacity,
+            max_capacity=max_capacity,
+            tags=tags,
             min_rating=min_rating,
-            is_active=is_active
+            is_active=is_active,
+            has_parking=has_parking
         )
-        
+
         sort = schemas.ShopSort(
             sort_by=sort_by,
             order=order
         )
-        
+
         # 서비스 호출
         result = services.ShopService.get_shops(
-            db=db, 
-            skip=skip, 
-            limit=limit, 
+            db=db,
+            skip=skip,
+            limit=limit,
             filters=filters,
             sort=sort
         )
-        
+
         return schemas.ShopList(
             total=result["total"],
             shops=result["shops"]
