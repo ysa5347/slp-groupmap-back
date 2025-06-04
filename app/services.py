@@ -68,13 +68,35 @@ class ShopService:
         
         # 페이지네이션 적용
         shops = query.offset(skip).limit(limit).all()
-
-        # 태그 이름 추출
+        
+        shop_list = []
         for shop in shops:
-            shop.tags = [tag.tag_name for tag in shop.tags]
+            # Shop 오브젝트를 딕셔너리로 변환
+            shop_dict = {
+                'pk': shop.pk,
+                'name': shop.name,
+                'dist': shop.dist,
+                'walk_time': shop.walk_time,
+                'pubtrans_time': shop.pubtrans_time,
+                'vehicle_time': shop.vehicle_time,
+                'is_parking': shop.is_parking,
+                'opening_info': shop.opening_info,
+                'significant': shop.significant,
+                'max_cap': shop.max_cap,
+                'table_cap': shop.table_cap,
+                'table_map_s3': shop.table_map_s3,
+                'shop_map_s3': shop.shop_map_s3,
+                'naver_link': shop.naver_link,
+                'kakao_link': shop.kakao_link,
+                'type': shop.shop_type,  # 모델에서는 shop_type이지만 스키마에서는 type
+                'is_active': shop.is_active,
+                'is_deleted': shop.is_deleted,
+                'created_at': shop.created_at,
+                'updated_at': shop.updated_at,
+                'tags': [tag.tag_name for tag in shop.tags]  # 태그 이름만 추출
+            }
+            shop_list.append(schemas.Shop(**shop_dict))
 
-        # Shop Pydantic model로 변환
-        shop_list = [schemas.Shop(**shop.__dict__) for shop in shops]
         return {
             "total": total,
             "shops": shop_list
