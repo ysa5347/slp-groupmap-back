@@ -49,4 +49,4 @@ class ShopService:
     
     @staticmethod
     def get_shop(db: Session, shop_id: int):
-        return db.query(models.Shop).filter(models.Shop.id == shop_id).first()
+        return db.query(models.Shop).filter(models.Shop.pk == shop_id).first()
