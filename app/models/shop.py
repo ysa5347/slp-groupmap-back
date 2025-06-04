@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, Boolean, DateTime
-from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy.dialects.mysql import JSON
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 from .association import shop_tags
@@ -9,20 +9,22 @@ class Shop(Base):
     __tablename__ = "shop_details"
 
     pk = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String, index=True, nullable=False)
+    name = Column(String(127), index=True, nullable=False)
     dist = Column(Integer)
     walk_time = Column(Integer)
     pubtrans_time = Column(Integer)
     vehicle_time = Column(Integer)
     is_parking = Column(Integer)
-    opening_info = Column(JSONB)
-    significant = Column(String)
+    opening_info = Column(JSON)
+    break_time = Column(String(255))
+    last_order = Column(String(255))
+    significant = Column(String(255))
     max_cap = Column(Integer)
     table_cap = Column(Integer)
-    table_map_s3 = Column(String)
-    shop_map_s3 = Column(String)
-    naver_link = Column(String)
-    kakao_link = Column(String)
+    table_map_s3 = Column(String(255))
+    shop_map_s3 = Column(String(255))
+    naver_link = Column(String(255))
+    kakao_link = Column(String(255))
     shop_type = Column(Integer, nullable=False)
     is_active = Column(Boolean, default=False)
     is_deleted = Column(Boolean, default=True)
