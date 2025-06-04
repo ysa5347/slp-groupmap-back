@@ -12,6 +12,7 @@ from .database import get_db
     - 요청 유효성 검사 및 예외 처리를 수행합니다.
 """
 
+
 class ShopController:
     @staticmethod
     def get_shops(
@@ -27,7 +28,7 @@ class ShopController:
         has_parking: Optional[bool] = None,
         sort_by: Optional[str] = "name",
         order: Optional[str] = "asc"
-    ):
+        ):
         # 필터와 정렬 객체 생성
         filters = schemas.ShopFilter(
             shop_type=shop_type,
@@ -38,21 +39,21 @@ class ShopController:
             is_active=is_active,
             has_parking=has_parking
         )
-        
+
         sort = schemas.ShopSort(
             sort_by=sort_by,
             order=order
         )
-        
+
         # 서비스 호출
         result = services.ShopService.get_shops(
-            db=db, 
-            skip=skip, 
-            limit=limit, 
+            db=db,
+            skip=skip,
+            limit=limit,
             filters=filters,
             sort=sort
         )
-        
+
         return schemas.ShopList(
             total=result["total"],
             shops=result["shops"]

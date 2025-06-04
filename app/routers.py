@@ -26,7 +26,7 @@ def read_shops(
     tag_list = None
     if tags:
         tag_list = [tag.strip() for tag in tags.split(",") if tag.strip()]
-    
+
     return controllers.ShopController.get_shops(
         db=db,
         skip=skip,
