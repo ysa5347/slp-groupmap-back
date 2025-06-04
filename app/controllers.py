@@ -51,7 +51,7 @@ class ShopController:
         )
     
     @staticmethod
-    def get_shop(shop_id: int, db: Session = Depends(get_db)):
+    def get_shop(db: Session, shop_id: int):
         shop = services.ShopService.get_shop(db, shop_id=shop_id)
         if shop is None:
             raise HTTPException(status_code=404, detail="가게를 찾을 수 없습니다")

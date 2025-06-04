@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, Query
 from typing import Optional
+from sqlalchemy.orm import Session
 
 from . import controllers, schemas
 from .database import get_db
@@ -27,5 +28,5 @@ def read_shops(
     )
 
 @router.get("/{shop_id}", response_model=schemas.Shop)
-def read_shop(shop_id: int):
-    return controllers.ShopController.get_shop(shop_id=shop_id)
+def read_shop(shop_id: int, db: Session = Depends(get_db)):
+    return controllers.ShopController.get_shop(db, shop_id=shop_id)
