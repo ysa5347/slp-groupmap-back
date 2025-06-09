@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, Query
-from typing import Optional
+from typing import Optional, List
 from sqlalchemy.orm import Session
 
 from . import controllers, schemas
@@ -11,7 +11,7 @@ router = APIRouter(prefix="/shops", tags=["shops"])
 def read_shops(
         skip: int = 0,
         limit: int = 100,
-        shop_type: Optional[int] = Query(None, description="카테고리 필터 (0: 밥, 1: 카, 2: 술)"),
+        shop_type: Optional[str] = Query(None, description="카테고리 필터 (0: 밥, 1: 카, 2: 술)"),
         min_capacity: Optional[int] = Query(None, description="최소 인원수"),
         max_capacity: Optional[int] = Query(None, description="최대 인원수"),
         tags: Optional[str] = Query(None, description="태그 필터 (쉼표로 구분)"),
@@ -22,6 +22,10 @@ def read_shops(
         order: Optional[str] = Query("asc", description="정렬 순서 (asc/desc)"),
         db: Session = Depends(get_db)
 ):
+    shop_types = None
+    if shop_type:
+        shop_types = [int(st.strip()) for st in shop_type.split(",") if st.strip()]
+
     # 태그 문자열을 리스트로 변환
     tag_list = None
     if tags:
@@ -31,7 +35,7 @@ def read_shops(
         db=db,
         skip=skip,
         limit=limit,
-        shop_type=shop_type,
+        shop_type=shop_types,
         min_capacity=min_capacity,
         max_capacity=max_capacity,
         tags=tag_list,

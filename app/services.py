@@ -23,7 +23,7 @@ class ShopService:
         if filters:
             # 카테고리(shop_type) 필터링
             if filters.shop_type is not None:
-                query = query.filter(models.Shop.shop_type == filters.shop_type)
+                query = query.filter(models.Shop.shop_type.in_(filters.shop_type))
 
             # 인원수 필터링
             if filters.min_capacity is not None:
@@ -69,11 +69,11 @@ class ShopService:
         # 페이지네이션 적용
         shops = query.offset(skip).limit(limit).all()
 
+        shop_list = []
         for shop in shops:
-            shop.tags = [tag.tag_name for tag in shop.tags]
-
-        # Shop Pydantic model로 변환
-        shop_list = [schemas.Shop(**shop.__dict__) for shop in shops]
+            shop_dict = shop.__dict__.copy()
+            shop_dict["tags"] = [tag.tag_name for tag in shop.tags]
+            shop_list.append(schemas.Shop(**shop_dict))
 
         return {
             "total": total,

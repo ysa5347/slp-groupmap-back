@@ -19,7 +19,7 @@ class ShopController:
             db: Session,
             skip: int = 0,
             limit: int = 100,
-            shop_type: Optional[int] = None,
+            shop_type: Optional[List[int]] = None,
             min_capacity: Optional[int] = None,
             max_capacity: Optional[int] = None,
             tags: Optional[List[str]] = None,
