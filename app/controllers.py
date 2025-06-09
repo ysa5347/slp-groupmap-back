@@ -16,19 +16,19 @@ from .database import get_db
 class ShopController:
     @staticmethod
     def get_shops(
-        db: Session,
-        skip: int = 0,
-        limit: int = 100,
-        shop_type: Optional[int] = None,
-        min_capacity: Optional[int] = None,
-        max_capacity: Optional[int] = None,
-        tags: Optional[List[str]] = None,
-        min_rating: Optional[float] = None,
-        is_active: Optional[bool] = True,
-        has_parking: Optional[bool] = None,
-        sort_by: Optional[str] = "name",
-        order: Optional[str] = "asc"
-        ):
+            db: Session,
+            skip: int = 0,
+            limit: int = 100,
+            shop_type: Optional[List[int]] = None,
+            min_capacity: Optional[int] = None,
+            max_capacity: Optional[int] = None,
+            tags: Optional[List[str]] = None,
+            min_rating: Optional[float] = None,
+            is_active: Optional[bool] = True,
+            has_parking: Optional[bool] = None,
+            sort_by: Optional[str] = "name",
+            order: Optional[str] = "asc"
+    ):
         # 필터와 정렬 객체 생성
         filters = schemas.ShopFilter(
             shop_type=shop_type,

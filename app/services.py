@@ -23,7 +23,7 @@ class ShopService:
         if filters:
             # 카테고리(shop_type) 필터링
             if filters.shop_type is not None:
-                query = query.filter(models.Shop.shop_type == filters.shop_type)
+                query = query.filter(models.Shop.shop_type.in_(filters.shop_type))
 
             # 인원수 필터링
             if filters.min_capacity is not None:

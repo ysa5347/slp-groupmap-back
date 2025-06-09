@@ -47,7 +47,7 @@ class Shop(ShopBase):
     pass
 
 class ShopFilter(BaseModel):
-    shop_type: Optional[int] = None  # 카테고리 필터링 (1: 한식, 2: 중식, 3: 일식, 4: 양식, 5: 기타)
+    shop_type: Optional[List[int]] = None  # 카테고리 필터링 (1: 한식, 2: 중식, 3: 일식, 4: 양식, 5: 기타)
     min_capacity: Optional[int] = None  # 최소 인원수
     max_capacity: Optional[int] = None  # 최대 인원수
     tags: Optional[List[str]] = None  # 태그 필터링
